@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zenith Type | High-Fidelity Foundry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Expanded Font Library with more variety -->
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Chakra+Petch:wght@300..700&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@100..900&family=Manrope:wght@200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@300..700&family=Syne:wght@400..800&family=Unbounded:wght@200..900&family=Fraunces:opsz,wght,soft,WONK@9..144,100..900,0..100,0..1&family=Epilogue:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Inconsolata:wght@200..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Newsreader:opsz,ital,wght@6..72,0,200..800;1,200..800&family=Sora:wght@100..800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Kanit:wght@100..900&family=Vollkorn:ital,wght@0,400..900;1,400..900&family=Hanken+Grotesk:wght@100..900&family=Zilla+Slab:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                light: '#F5F5F3',
+                black: '#0A0A0A',
+                accent: '#FF3C00',
+                lime: '#D4FF00',
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              grotesk: ['Space Grotesk', 'sans-serif'],
+              mono: ['DM Mono', 'monospace'],
+              serif: ['Playfair Display', 'serif'],
+              unbounded: ['Unbounded', 'sans-serif'],
+              syne: ['Syne', 'sans-serif'],
+              manrope: ['Manrope', 'sans-serif'],
+              cormorant: ['Cormorant Garamond', 'serif'],
+              chakra: ['Chakra Petch', 'sans-serif'],
+              bricolage: ['Bricolage Grotesque', 'sans-serif'],
+              fraunces: ['Fraunces', 'serif'],
+              epilogue: ['Epilogue', 'sans-serif'],
+              outfit: ['Outfit', 'sans-serif'],
+              inconsolata: ['Inconsolata', 'monospace'],
+              public: ['Public Sans', 'sans-serif'],
+              newsreader: ['Newsreader', 'serif'],
+              sora: ['Sora', 'sans-serif'],
+              libre: ['Libre Baskerville', 'serif'],
+              kanit: ['Kanit', 'sans-serif'],
+              vollkorn: ['Vollkorn', 'serif'],
+              hanken: ['Hanken Grotesk', 'sans-serif'],
+              zilla: ['Zilla Slab', 'serif'],
+            },
+            animation: {
+              'marquee': 'marquee 25s linear infinite',
+              'marquee-reverse': 'marquee-reverse 25s linear infinite',
+              'spin-slow': 'spin 12s linear infinite',
+              'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            },
+            keyframes: {
+              marquee: {
+                '0%': { transform: 'translateX(0%)' },
+                '100%': { transform: 'translateX(-50%)' },
+              },
+              'marquee-reverse': {
+                '0%': { transform: 'translateX(-50%)' },
+                '100%': { transform: 'translateX(0%)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root {
+        --scroll-y: 0;
+      }
+      body {
+        cursor: none;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        background-color: #F5F5F3;
+      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      
+      /* Anchor offset fix for working links */
+      html {
+        scroll-padding-top: 80px;
+        scroll-behavior: smooth;
+      }
+
+      /* Global Noise Overlay - Optimized */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        opacity: 0.03;
+        z-index: 9999;
+        pointer-events: none;
+        background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+        will-change: transform;
+      }
+
+      /* GPU Accelerated Hover effects */
+      .magnetic-wrap {
+        display: inline-block;
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        will-change: transform;
+      }
+      
+      button, a {
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform, opacity;
+      }
+
+      /* Performance: Force hardware acceleration for animations */
+      .animate-marquee, .animate-marquee-reverse, .animate-spin-slow {
+        backface-visibility: hidden;
+        perspective: 1000px;
+        transform: translateZ(0);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+  <style>
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+  <body class="bg-brand-light text-brand-black">
+    <div id="root"></div>
+    <script>
+      // Single global scroll listener to update a CSS variable
+      // This avoids React state re-renders for parallax effects
+      let lastScrollY = 0;
+      const updateScroll = () => {
+        const scrollY = window.scrollY;
+        if (Math.abs(lastScrollY - scrollY) > 0.5) {
+          document.documentElement.style.setProperty('--scroll-y', `${scrollY}px`);
+          lastScrollY = scrollY;
+        }
+        requestAnimationFrame(updateScroll);
+      };
+      updateScroll();
+    </script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
