@@ -41,24 +41,24 @@ const FontTester: React.FC<FontTesterProps> = ({ activeFont, language }) => {
       <div className="grid grid-cols-1 xl:grid-cols-12 border-b border-neutral-800">
         
         {/* Info Column */}
-        <div className="xl:col-span-3 p-6 border-b xl:border-b-0 xl:border-r border-neutral-800 flex flex-col justify-center bg-neutral-900/10">
-            <h2 className="text-[10px] uppercase font-mono mb-3 opacity-60 tracking-widest flex items-center gap-2">
-                <div className="w-2 h-2 bg-brand-lime rounded-full animate-pulse"></div>
+        <div className="xl:col-span-3 p-4 md:p-6 border-b xl:border-b-0 xl:border-r border-neutral-800 flex flex-col justify-center bg-neutral-900/10">
+            <h2 className="text-[9px] md:text-[10px] uppercase font-mono mb-2 md:mb-3 opacity-60 tracking-widest flex items-center gap-2">
+                <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-brand-lime rounded-full animate-pulse"></div>
                 {t.title}
             </h2>
-            <div className="text-3xl font-bold font-grotesk">{activeFont.name}</div>
-            <div className="text-sm opacity-60 mt-1 font-mono">
+            <div className="text-2xl md:text-3xl font-bold font-grotesk">{activeFont.name}</div>
+            <div className="text-xs md:text-sm opacity-60 mt-1 font-mono">
               {activeFont.styleCount} {language === 'en' ? 'Styles' : 'Начертаний'} • {activeFont.family}
             </div>
         </div>
 
         {/* Controls Column */}
-        <div className="xl:col-span-9 p-6 flex flex-wrap gap-x-8 gap-y-6 items-center">
+        <div className="xl:col-span-9 p-4 md:p-6 flex flex-wrap gap-x-4 md:gap-x-8 gap-y-4 md:gap-y-6 items-center">
            
            {/* Size */}
-           <div className="flex flex-col gap-2 min-w-[140px] flex-1">
-              <div className="flex justify-between text-[10px] uppercase opacity-60 font-mono tracking-wider">
-                 <span className="flex items-center gap-1"><Scaling size={10} /> {t.size}</span>
+           <div className="flex flex-col gap-1.5 md:gap-2 min-w-[120px] md:min-w-[140px] flex-1">
+              <div className="flex justify-between text-[8px] md:text-[10px] uppercase opacity-60 font-mono tracking-wider">
+                 <span className="flex items-center gap-1"><Scaling size={9} className="md:hidden" /><Scaling size={10} className="hidden md:block" /> {t.size}</span>
                  <span>{fontSize}px</span>
               </div>
               <input 

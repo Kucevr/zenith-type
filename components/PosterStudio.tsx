@@ -67,10 +67,10 @@ const PosterStudio: React.FC<PosterStudioProps> = ({ language }) => {
   };
 
   return (
-    <div className="py-12 md:py-24 px-4 md:px-12 bg-white border-b border-black">
+    <div className="py-8 md:py-24 px-3 md:px-12 bg-white border-b border-black">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16">
-          <div className="lg:col-span-4 space-y-6 order-2 lg:order-1">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-16">
+          <div className="lg:col-span-4 space-y-4 md:space-y-6 order-2 lg:order-1">
             <div className="flex justify-between items-start">
               <div className="animate-in slide-in-from-left duration-500">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-accent mb-2 block">{t.system}</span>
@@ -81,10 +81,10 @@ const PosterStudio: React.FC<PosterStudioProps> = ({ language }) => {
               </button>
             </div>
 
-            <div className="space-y-5 bg-brand-light/40 p-5 md:p-8 border border-black/10 rounded-none relative overflow-hidden">
-              <div className="space-y-3">
+            <div className="space-y-4 md:space-y-5 bg-brand-light/40 p-4 md:p-8 border border-black/10 rounded-none relative overflow-hidden">
+              <div className="space-y-2 md:space-y-3">
                 <div className="flex justify-between items-center">
-                  <h4 className="text-[10px] font-bold uppercase text-neutral-400 flex items-center gap-2"><Edit3 size={12} /> {t.text}</h4>
+                  <h4 className="text-[9px] md:text-[10px] font-bold uppercase text-neutral-400 flex items-center gap-2"><Edit3 size={10} className="md:hidden" /><Edit3 size={12} className="hidden md:block" /> {t.text}</h4>
                   <div className="flex gap-1">
                     {['none', 'uppercase', 'lowercase'].map((t) => (
                       <button 
@@ -100,11 +100,11 @@ const PosterStudio: React.FC<PosterStudioProps> = ({ language }) => {
                 <textarea value={posterText} onChange={(e) => setPosterText(e.target.value)} className="w-full bg-white border border-neutral-200 p-4 font-bold text-sm md:text-base outline-none h-24 md:h-28 resize-none" style={{ textTransform }} />
               </div>
 
-              <div className="space-y-5">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-[9px] uppercase font-bold text-neutral-500">
-                        <span className="flex items-center gap-1"><Scaling size={10}/> {translations[language].lab.size}</span>
+              <div className="space-y-3 md:space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                  <div className="space-y-1.5 md:space-y-2">
+                    <div className="flex justify-between text-[8px] md:text-[9px] uppercase font-bold text-neutral-500">
+                        <span className="flex items-center gap-1"><Scaling size={9} className="md:hidden"/><Scaling size={10} className="hidden md:block"/> {translations[language].lab.size}</span>
                         <span>{fontSize}px</span>
                     </div>
                     <input type="range" min="40" max="300" value={fontSize} onChange={(e) => setFontSize(Number(e.target.value))} className="w-full accent-black h-1 bg-neutral-300 rounded-lg appearance-none cursor-pointer" />

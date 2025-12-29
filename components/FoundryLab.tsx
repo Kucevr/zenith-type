@@ -84,14 +84,14 @@ const FoundryLab: React.FC<FoundryLabProps> = ({ language }) => {
   ];
 
   return (
-    <section className="bg-brand-black text-white py-24 px-6 md:px-12 border-b border-neutral-800 relative overflow-hidden">
+    <section className="bg-brand-black text-white py-12 md:py-24 px-4 md:px-12 border-b border-neutral-800 relative overflow-hidden">
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8 border-b border-neutral-800 pb-12">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-10 md:mb-20 gap-6 md:gap-8 border-b border-neutral-800 pb-8 md:pb-12">
           <div className="max-w-xl animate-in slide-in-from-left duration-700">
-            <h2 className="text-xs font-bold uppercase tracking-[0.4em] text-brand-lime mb-6 flex items-center gap-3">
-              <FlaskConical size={14} className="animate-pulse" /> {language === 'en' ? 'Experimental Division' : 'Экспериментальный отдел'}
+            <h2 className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] md:tracking-[0.4em] text-brand-lime mb-4 md:mb-6 flex items-center gap-2 md:gap-3">
+              <FlaskConical size={12} className="animate-pulse md:hidden" /><FlaskConical size={14} className="animate-pulse hidden md:block" /> {language === 'en' ? 'Experimental Division' : 'Экспериментальный отдел'}
             </h2>
-            <h3 className="text-5xl md:text-7xl font-bold uppercase font-grotesk leading-[0.85] tracking-tighter">
+            <h3 className="text-3xl md:text-7xl font-bold uppercase font-grotesk leading-[0.85] tracking-tighter">
               {language === 'en' ? <>The Lab /<br/><span className="text-neutral-500">Future Specimens</span></> : <>Лаборатория /<br/><span className="text-neutral-500">Будущие релизы</span></>}
             </h3>
           </div>

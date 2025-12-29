@@ -120,33 +120,33 @@ const LegalModal: React.FC<LegalModalProps> = ({ type, language, onClose }) => {
 
   return (
     <div 
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-md animate-in fade-in duration-300"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-2 md:p-8 bg-black/80 backdrop-blur-md animate-in fade-in duration-300"
       onClick={onClose}
     >
       <div 
-        className={`bg-white text-black w-full max-w-4xl h-full md:h-auto md:max-h-[90vh] overflow-hidden flex flex-col rounded-none border-2 border-black shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] animate-in zoom-in-95 duration-300`}
+        className={`bg-white text-black w-full max-w-4xl h-full md:h-auto md:max-h-[90vh] overflow-hidden flex flex-col rounded-none border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] md:shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] animate-in zoom-in-95 duration-300`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className={`p-6 md:p-10 border-b-2 border-black flex justify-between items-center ${theme.bg} relative overflow-hidden`}>
+        <div className={`p-4 md:p-10 border-b-2 border-black flex justify-between items-center ${theme.bg} relative overflow-hidden`}>
           {/* Decorative Noise */}
           <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')"}}></div>
           
-          <div className="flex items-center gap-6 relative z-10">
-            <div className={`w-14 h-14 ${theme.iconBg} ${type === 'faq' ? 'text-black' : 'text-white'} flex items-center justify-center border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}>
+          <div className="flex items-center gap-3 md:gap-6 relative z-10">
+            <div className={`w-10 h-10 md:w-14 md:h-14 ${theme.iconBg} ${type === 'faq' ? 'text-black' : 'text-white'} flex items-center justify-center border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] md:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]`}>
               {React.cloneElement(currentContent.icon as React.ReactElement, { 
                 className: type === 'faq' ? "text-black" : "text-white", 
-                size: 28,
+                size: 20,
                 strokeWidth: 2.5
               })}
             </div>
             <div>
-              <div className="flex items-center gap-3 mb-1">
+              <div className="hidden md:flex items-center gap-3 mb-1">
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-50 font-mono">Protocol_v2.5</span>
                 <div className="h-px w-8 bg-black/20"></div>
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-accent font-mono">{type}</span>
               </div>
-              <h2 className="text-3xl md:text-5xl font-bold uppercase tracking-tighter font-grotesk leading-none">{currentContent.title}</h2>
+              <h2 className="text-2xl md:text-5xl font-bold uppercase tracking-tighter font-grotesk leading-none">{currentContent.title}</h2>
             </div>
           </div>
           

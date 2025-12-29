@@ -16,7 +16,7 @@ const Hero: React.FC<HeroProps> = ({ language, featuredFont, onAddToCart, onDown
   const t = translations[language].hero;
 
   return (
-    <section id="hero" className="relative min-h-[90vh] md:min-h-[90vh] flex flex-col justify-between border-b border-black overflow-hidden bg-brand-light scroll-mt-20">
+    <section id="hero" className="relative min-h-[85vh] md:min-h-[90vh] flex flex-col justify-between border-b border-black overflow-hidden bg-brand-light scroll-mt-14 md:scroll-mt-20">
       
       <div className="absolute inset-0 grid grid-cols-6 pointer-events-none opacity-[0.03]">
         {[...Array(6)].map((_, i) => (
@@ -29,20 +29,20 @@ const Hero: React.FC<HeroProps> = ({ language, featuredFont, onAddToCart, onDown
         </div>
       </div>
 
-      <div className="relative z-10 p-6 md:p-12 flex flex-col md:flex-row justify-between items-start gap-8 pt-10 md:pt-24">
+      <div className="relative z-10 p-4 md:p-12 flex flex-col md:flex-row justify-between items-start gap-6 md:gap-8 pt-6 md:pt-24">
          <div className="max-w-2xl animate-in slide-in-from-left duration-700">
-            <div className="inline-flex items-center gap-2 px-3 py-1 border border-black bg-white mb-6 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
-                <span className="w-2 h-2 bg-brand-accent rounded-full animate-pulse"></span>
-                <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest">{t.system}</span>
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 border border-black bg-white mb-4 md:mb-6 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] md:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
+                <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-brand-accent rounded-full animate-pulse"></span>
+                <span className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest">{t.system}</span>
             </div>
-            <h1 className={`font-bold uppercase tracking-tight leading-[0.85] font-grotesk mb-6 ${language === 'ru' ? 'text-3xl sm:text-4xl md:text-6xl lg:text-7xl' : 'text-4xl sm:text-5xl md:text-7xl'}`}>
+            <h1 className={`font-bold uppercase tracking-tight leading-[0.85] font-grotesk mb-4 md:mb-6 ${language === 'ru' ? 'text-[2rem] sm:text-4xl md:text-6xl lg:text-7xl' : 'text-[2.5rem] sm:text-5xl md:text-7xl'}`}>
               {language === 'en' ? (
                 <>Precision Tools<br/> for <span className="bg-brand-lime px-2 text-black inline-block transform -skew-x-6">Radical</span><br/>Designers</>
               ) : (
                 <>Инструменты<br/> для <span className="bg-brand-lime px-2 text-black inline-block transform -skew-x-6">Смелого</span><br/>Дизайна</>
               )}
             </h1>
-            <p className="max-w-md text-xs md:text-sm font-mono text-neutral-600 leading-relaxed uppercase tracking-tight">
+            <p className="max-w-md text-[10px] md:text-sm font-mono text-neutral-600 leading-relaxed uppercase tracking-tight">
                {t.desc}
             </p>
          </div>
@@ -55,7 +55,7 @@ const Hero: React.FC<HeroProps> = ({ language, featuredFont, onAddToCart, onDown
          </div>
       </div>
 
-      <div className="relative z-10 w-full overflow-hidden flex items-center justify-center py-6 md:py-0">
+      <div className="relative z-10 w-full overflow-hidden flex items-center justify-center py-4 md:py-0">
          <h2 
            className="text-[20vw] md:text-[18vw] leading-[0.7] font-bold tracking-tighter text-center whitespace-nowrap text-brand-black select-none pointer-events-none opacity-90 will-change-transform"
            style={{ transform: `translateX(calc(var(--scroll-y) * -0.15))` }}
@@ -72,16 +72,16 @@ const Hero: React.FC<HeroProps> = ({ language, featuredFont, onAddToCart, onDown
                   {featuredFont.name}
                 </span>
              </div>
-             <div className="flex flex-col sm:flex-row gap-4">
+             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto">
                 <button 
                   onClick={() => onAddToCart(featuredFont)}
-                  className="bg-black text-white px-6 md:px-8 py-3 md:py-5 uppercase text-[10px] md:text-xs font-bold hover:bg-brand-accent transition-colors flex items-center justify-center gap-2 shadow-[3px_3px_0px_0px_rgba(212,255,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] transition-all"
+                  className="bg-black text-white px-5 md:px-8 py-3 md:py-5 uppercase text-[9px] md:text-xs font-bold hover:bg-brand-accent transition-colors flex items-center justify-center gap-2 shadow-[2px_2px_0px_0px_rgba(212,255,0,1)] md:shadow-[3px_3px_0px_0px_rgba(212,255,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] transition-all"
                 >
-                    {t.purchase} <MoveRight size={14} />
+                    {t.purchase} <MoveRight size={12} className="md:hidden" /><MoveRight size={14} className="hidden md:block" />
                 </button>
                 <button 
                   onClick={onDownloadTrial}
-                  className="bg-transparent border border-black text-black px-6 md:px-8 py-3 md:py-5 uppercase text-[10px] md:text-xs font-bold hover:bg-white transition-colors"
+                  className="bg-transparent border border-black text-black px-5 md:px-8 py-3 md:py-5 uppercase text-[9px] md:text-xs font-bold hover:bg-white transition-colors"
                 >
                     {t.trial}
                 </button>

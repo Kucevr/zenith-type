@@ -46,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ language, setLanguage, cartCount, onCar
 
   return (
     <>
-      <div className="bg-brand-black text-brand-lime text-[10px] md:text-xs font-bold uppercase py-2 border-b border-white tracking-widest z-[60] relative overflow-hidden">
+      <div className="bg-brand-black text-brand-lime text-[9px] md:text-xs font-bold uppercase py-1.5 md:py-2 border-b border-white tracking-widest z-[60] relative overflow-hidden">
         <Marquee 
           text={language === 'en' 
             ? "• NEW RELEASE: ZENITH SANS v2.0 • 50% OFF STUDENT LICENSES • FREE TRIAL FONTS • WORLDWIDE USE • " 
@@ -54,17 +54,17 @@ const Header: React.FC<HeaderProps> = ({ language, setLanguage, cartCount, onCar
           repeat={6} 
         />
       </div>
-      <header className="sticky top-0 z-50 bg-brand-light/90 backdrop-blur-xl border-b border-black h-16 md:h-20">
+      <header className="sticky top-0 z-50 bg-brand-light/90 backdrop-blur-xl border-b border-black h-14 md:h-20">
         <div className="grid grid-cols-2 md:grid-cols-12 h-full items-center">
           
-          <div className="col-span-1 md:col-span-3 h-full border-r border-black flex items-center px-4 md:px-6 bg-brand-light">
+          <div className="col-span-1 md:col-span-3 h-full border-r border-black flex items-center px-3 md:px-6 bg-brand-light">
             <a 
               href="#" 
               onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
               className="flex items-center gap-2 md:gap-3 group"
             >
-              <div className="w-5 h-5 md:w-6 md:h-6 bg-brand-accent rounded-none group-hover:rotate-45 transition-transform duration-300"></div>
-              <span className="font-bold text-lg md:text-2xl tracking-tighter uppercase font-grotesk">
+              <div className="w-4 h-4 md:w-6 md:h-6 bg-brand-accent rounded-none group-hover:rotate-45 transition-transform duration-300"></div>
+              <span className="font-bold text-base md:text-2xl tracking-tighter uppercase font-grotesk">
                 Zenith®
               </span>
             </a>
