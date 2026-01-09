@@ -69,7 +69,7 @@ const Footer: React.FC<FooterProps> = ({ language, onSubscribe, onOpenLegal }) =
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8">
                 <div>© {new Date().getFullYear()} {t.rights}</div>
                 <a 
-                  href="https://kutsev.studio" 
+                  href="https://kutsev-studio.vercel.app" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="hover:text-brand-accent transition-colors"

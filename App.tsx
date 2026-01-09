@@ -80,22 +80,28 @@ const App: React.FC = () => {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Zenith Type Foundry",
-    "url": "https://zenith-type.com",
-    "logo": "https://zenith-type.com/logo.png",
+    "url": "https://zenith-type.vercel.app",
+    "logo": "https://zenith-type.vercel.app/favicon.svg",
     "description": "Independent digital type foundry specializing in high-performance retail and custom typefaces.",
+    "sameAs": [
+      "https://github.com/Kucevr/zenith-type",
+      "https://instagram.com/zenithtype"
+    ],
     "offers": fonts.map(font => ({
       "@type": "Offer",
       "itemOffered": {
         "@type": "Product",
         "name": font.name,
         "description": font.description,
+        "category": font.category,
         "brand": {
           "@type": "Brand",
           "name": "Zenith Type"
         }
       },
       "price": font.price,
-      "priceCurrency": "USD"
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
     }))
   };
 
