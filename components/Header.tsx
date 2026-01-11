@@ -54,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ language, setLanguage, cartCount, onCar
           repeat={6} 
         />
       </div>
-      <header className="sticky top-0 z-50 bg-brand-light/90 backdrop-blur-xl border-b border-black h-14 md:h-20">
+      <header className="sticky top-0 z-50 bg-brand-light/90 backdrop-blur-md border-b border-black h-14 md:h-20">
         <div className="grid grid-cols-2 md:grid-cols-12 h-full items-center">
           
           <div className="col-span-1 md:col-span-3 h-full border-r border-black flex items-center px-3 md:px-6 bg-brand-light">

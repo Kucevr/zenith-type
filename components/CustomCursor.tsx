@@ -18,9 +18,12 @@ const CustomCursor: React.FC = () => {
       const target = e.target as HTMLElement;
       if (!target) return;
 
-      // Magnetic logic
+      // Magnetic logic with immediate reset for previous targets
       const magElement = target.closest('a, button, [data-magnetic]') as HTMLElement;
       if (magElement) {
+        if (magneticTarget.current && magneticTarget.current !== magElement) {
+          magneticTarget.current.style.transform = '';
+        }
         magneticTarget.current = magElement;
         const rect = magElement.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
@@ -66,13 +69,13 @@ const CustomCursor: React.FC = () => {
     const render = () => {
       const lerp = (start: number, end: number, factor: number) => start + (end - start) * factor;
 
-      // High-precision snappy dot (0.95 is virtually instant)
-      dotPos.current.x = lerp(dotPos.current.x, mousePos.current.x, 0.95);
-      dotPos.current.y = lerp(dotPos.current.y, mousePos.current.y, 0.95);
+      // Virtually instant follow for the dot to avoid "flying to the side"
+      dotPos.current.x = lerp(dotPos.current.x, mousePos.current.x, 0.98);
+      dotPos.current.y = lerp(dotPos.current.y, mousePos.current.y, 0.98);
 
-      // Fast responsive ring (0.4 is snappy but has subtle weight)
-      ringPos.current.x = lerp(ringPos.current.x, mousePos.current.x, 0.4);
-      ringPos.current.y = lerp(ringPos.current.y, mousePos.current.y, 0.4);
+      // Snappy but smooth follow for the ring
+      ringPos.current.x = lerp(ringPos.current.x, mousePos.current.x, 0.3);
+      ringPos.current.y = lerp(ringPos.current.y, mousePos.current.y, 0.3);
 
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${dotPos.current.x}px, ${dotPos.current.y}px, 0) translate(-50%, -50%)`;

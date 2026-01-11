@@ -51,10 +51,27 @@ const App: React.FC = () => {
   const t = translations[language];
 
   // Optimized derived data
-  const cartItems = useMemo(() => 
-    cartIds.map(id => fonts.find(f => f.id === id)!).filter(Boolean),
-    [cartIds]
-  );
+  const cartItems = useMemo(() => {
+    return cartIds.map(id => {
+      if (id === 'bundle') {
+        return { 
+          id: 'bundle', 
+          name: 'Zenith Bundle 2024', 
+          price: 250, 
+          styleCount: 450,
+          family: 'Full Library',
+          category: 'Display',
+          description: 'Access to all existing and future fonts in our collection.',
+          tags: ['Full Access', 'Commercial', 'App'],
+          previewText: 'FULL COLLECTION',
+          className: 'font-grotesk',
+          designer: 'Zenith Type Foundry',
+          styles: []
+        } as Font;
+      }
+      return fonts.find(f => f.id === id);
+    }).filter((item): item is Font => !!item);
+  }, [cartIds]);
 
   const filteredFonts = useMemo(() => {
     return fonts.filter(font => {
@@ -74,6 +91,7 @@ const App: React.FC = () => {
     }
     setCartIds(prev => [...prev, font.id]);
     setToast({ visible: true, message: language === 'en' ? `Added ${font.name} to cart` : `Добавлено: ${font.name}` });
+    setIsCartOpen(true);
   }, [cartIds, language]);
 
   const handleRemoveFromCart = useCallback((fontId: string) => {
@@ -93,7 +111,7 @@ const App: React.FC = () => {
   }, [language]);
 
   const handleApplyStudent = useCallback(() => setToast({ visible: true, message: language === 'en' ? 'Student Verification Portal Opened' : 'Портал верификации студентов открыт' }), [language]);
-  const handleBuyFreelance = useCallback(() => setIsCartOpen(true), []);
+  const handleBuyFreelance = useCallback(() => handleAddToCart(selectedFont), [handleAddToCart, selectedFont]);
   const handleContactEnterprise = useCallback(() => setToast({ visible: true, message: language === 'en' ? 'Contact Form Dispatched' : 'Форма обратной связи отправлена' }), [language]);
   const handleSubscribe = useCallback(() => setToast({ visible: true, message: language === 'en' ? 'Subscription Confirmed' : 'Подписка подтверждена' }), [language]);
   const handleBuyBundle = useCallback(() => handleAddToCart({ id: 'bundle', name: 'Zenith Bundle 2024', price: 250 } as Font), [handleAddToCart]);
