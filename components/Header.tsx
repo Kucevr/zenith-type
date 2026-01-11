@@ -91,51 +91,68 @@ const Header: React.FC<HeaderProps> = ({ language, setLanguage, cartCount, onCar
           >
             <div className="flex items-center gap-4">
                {/* Language Switcher */}
-               <div className="flex items-center border border-black/10 rounded-full overflow-hidden text-[10px] font-bold font-mono">
+               <div className="flex items-center border border-black/10 rounded-full overflow-hidden text-[10px] font-bold font-mono" role="group" aria-label={language === 'en' ? 'Select language' : 'Выбрать язык'}>
                   <button 
                     onClick={(e) => { e.stopPropagation(); setLanguage('en'); }}
+                    aria-pressed={language === 'en'}
+                    aria-label="English"
                     className={`px-3 py-1 transition-colors ${language === 'en' ? 'bg-black text-white' : 'hover:bg-neutral-100'}`}
                   >
                     EN
                   </button>
                   <button 
                     onClick={(e) => { e.stopPropagation(); setLanguage('ru'); }}
+                    aria-pressed={language === 'ru'}
+                    aria-label="Русский"
                     className={`px-3 py-1 transition-colors ${language === 'ru' ? 'bg-black text-white' : 'hover:bg-neutral-100'}`}
                   >
                     RU
                   </button>
                </div>
 
-               <button onClick={onCartToggle} className="hidden md:flex items-center gap-2 text-xs font-bold uppercase">
+               <button 
+                onClick={onCartToggle} 
+                aria-label={`${t.cart} (${cartCount})`}
+                className="hidden md:flex items-center gap-2 text-xs font-bold uppercase"
+               >
                 <span className="group-hover:text-brand-accent transition-colors whitespace-nowrap">{t.cart} ({cartCount})</span>
                </button>
             </div>
 
             <div className="flex md:hidden items-center gap-4">
-               <div className="relative" onClick={(e) => { e.stopPropagation(); onCartToggle(); }}>
-                 <ShoppingBag size={20} />
+               <div className="relative" onClick={(e) => { e.stopPropagation(); onCartToggle(); }} role="button" aria-label={`${t.cart} (${cartCount})`}>
+                 <ShoppingBag size={20} aria-hidden="true" />
                  {cartCount > 0 && (
                    <span className="absolute -top-2 -right-2 bg-brand-accent text-white w-4 h-4 rounded-full text-[9px] flex items-center justify-center">
                      {cartCount}
                    </span>
                  )}
                </div>
-               <button onClick={(e) => { e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}>
+               <button 
+                onClick={(e) => { e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}
+                aria-label={isMenuOpen ? (language === 'en' ? 'Close menu' : 'Закрыть меню') : (language === 'en' ? 'Open menu' : 'Открыть меню')}
+                aria-expanded={isMenuOpen}
+               >
                  {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                </button>
             </div>
             <div className="hidden md:block">
-                <Globe size={20} strokeWidth={1.5} className="group-hover:rotate-180 transition-transform duration-700" />
+                <Globe size={20} strokeWidth={1.5} className="group-hover:rotate-180 transition-transform duration-700" aria-hidden="true" />
             </div>
           </div>
         </div>
       </header>
 
       {isMenuOpen && (
-        <div className="fixed inset-0 top-0 bg-brand-light z-[100] p-0 flex flex-col md:hidden animate-in slide-in-from-top duration-500">
+        <div className="fixed inset-0 top-0 bg-brand-light z-[100] p-0 flex flex-col md:hidden animate-in slide-in-from-top duration-500" role="dialog" aria-modal="true">
             <div className="flex justify-between items-center p-6 border-b border-black">
                 <span className="font-bold text-xl uppercase font-grotesk">{language === 'en' ? 'Menu' : 'Меню'}</span>
-                <button onClick={() => setIsMenuOpen(false)}><X size={24} /></button>
+                <button 
+                  onClick={() => setIsMenuOpen(false)}
+                  aria-label={language === 'en' ? 'Close menu' : 'Закрыть меню'}
+                >
+                  <X size={24} />
+                </button>
             </div>
             <div className="flex flex-col flex-1 overflow-y-auto">
                 {navItems.map((item) => (

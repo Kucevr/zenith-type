@@ -58,8 +58,17 @@ const Footer: React.FC<FooterProps> = ({ language, onSubscribe, onOpenLegal }) =
                  <p className="text-sm text-neutral-400 mb-8 max-w-sm font-mono">{t.newsletterDesc}</p>
                </div>
                <div className="flex border-b border-white pb-2 group/input">
-                 <input type="email" placeholder="EMAIL" className="bg-transparent w-full outline-none text-white placeholder-neutral-600 uppercase text-xl font-bold font-grotesk" />
-                 <button onClick={onSubscribe} className="text-brand-lime font-bold uppercase text-sm hover:text-white transition-colors whitespace-nowrap">
+                 <input 
+                  type="email" 
+                  placeholder="EMAIL" 
+                  aria-label={language === 'en' ? 'Newsletter Email' : 'Email для рассылки'}
+                  className="bg-transparent w-full outline-none text-white placeholder-neutral-600 uppercase text-xl font-bold font-grotesk" 
+                 />
+                 <button 
+                  onClick={onSubscribe} 
+                  aria-label={t.signup}
+                  className="text-brand-lime font-bold uppercase text-sm hover:text-white transition-colors whitespace-nowrap"
+                 >
                    {t.signup}
                  </button>
                </div>

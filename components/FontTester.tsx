@@ -64,6 +64,7 @@ const FontTester: React.FC<FontTesterProps> = ({ activeFont, language }) => {
               <input 
                 type="range" min="12" max="300" value={fontSize} 
                 onChange={(e) => setFontSize(Number(e.target.value))}
+                aria-label={`${t.size}: ${fontSize}px`}
                 className="w-full accent-brand-lime h-1 bg-neutral-700/50 rounded-lg appearance-none cursor-pointer hover:bg-neutral-600 transition-colors"
               />
            </div>
@@ -77,6 +78,7 @@ const FontTester: React.FC<FontTesterProps> = ({ activeFont, language }) => {
               <input 
                 type="range" min="100" max="900" step="100" value={weight} 
                 onChange={(e) => setWeight(Number(e.target.value))}
+                aria-label={`${t.weight}: ${weight}`}
                 className="w-full accent-brand-lime h-1 bg-neutral-700/50 rounded-lg appearance-none cursor-pointer hover:bg-neutral-600 transition-colors"
               />
            </div>
@@ -90,6 +92,7 @@ const FontTester: React.FC<FontTesterProps> = ({ activeFont, language }) => {
               <input 
                 type="range" min="-10" max="20" step="0.5" value={letterSpacing} 
                 onChange={(e) => setLetterSpacing(Number(e.target.value))}
+                aria-label={`${t.tracking}: ${letterSpacing}px`}
                 className="w-full accent-brand-lime h-1 bg-neutral-700/50 rounded-lg appearance-none cursor-pointer hover:bg-neutral-600 transition-colors"
               />
            </div>
@@ -103,6 +106,7 @@ const FontTester: React.FC<FontTesterProps> = ({ activeFont, language }) => {
               <input 
                 type="range" min="0.8" max="2" step="0.1" value={lineHeight} 
                 onChange={(e) => setLineHeight(Number(e.target.value))}
+                aria-label={`${t.leading}: ${lineHeight}`}
                 className="w-full accent-brand-lime h-1 bg-neutral-700/50 rounded-lg appearance-none cursor-pointer hover:bg-neutral-600 transition-colors"
               />
            </div>
@@ -110,14 +114,29 @@ const FontTester: React.FC<FontTesterProps> = ({ activeFont, language }) => {
             <div className="h-8 w-px bg-neutral-800 mx-2 hidden lg:block"></div>
 
             {/* Alignment */}
-           <div className="flex items-center border border-neutral-700 rounded-md overflow-hidden bg-neutral-900">
-              <button onClick={() => setAlign('left')} className={`p-2 transition-colors ${align === 'left' ? 'bg-brand-lime text-black' : 'text-neutral-400 hover:text-white'}`}>
+           <div className="flex items-center border border-neutral-700 rounded-md overflow-hidden bg-neutral-900" role="group" aria-label={language === 'en' ? 'Text alignment' : 'Выравнивание текста'}>
+              <button 
+                onClick={() => setAlign('left')} 
+                aria-pressed={align === 'left'}
+                aria-label={language === 'en' ? 'Align left' : 'По левому краю'}
+                className={`p-2 transition-colors ${align === 'left' ? 'bg-brand-lime text-black' : 'text-neutral-400 hover:text-white'}`}
+              >
                 <AlignLeft size={16} />
               </button>
-              <button onClick={() => setAlign('center')} className={`p-2 transition-colors ${align === 'center' ? 'bg-brand-lime text-black' : 'text-neutral-400 hover:text-white'}`}>
+              <button 
+                onClick={() => setAlign('center')} 
+                aria-pressed={align === 'center'}
+                aria-label={language === 'en' ? 'Align center' : 'По центру'}
+                className={`p-2 transition-colors ${align === 'center' ? 'bg-brand-lime text-black' : 'text-neutral-400 hover:text-white'}`}
+              >
                 <AlignCenter size={16} />
               </button>
-              <button onClick={() => setAlign('right')} className={`p-2 transition-colors ${align === 'right' ? 'bg-brand-lime text-black' : 'text-neutral-400 hover:text-white'}`}>
+              <button 
+                onClick={() => setAlign('right')} 
+                aria-pressed={align === 'right'}
+                aria-label={language === 'en' ? 'Align right' : 'По правому краю'}
+                className={`p-2 transition-colors ${align === 'right' ? 'bg-brand-lime text-black' : 'text-neutral-400 hover:text-white'}`}
+              >
                 <AlignRight size={16} />
               </button>
            </div>
@@ -127,6 +146,7 @@ const FontTester: React.FC<FontTesterProps> = ({ activeFont, language }) => {
              <button 
                onClick={() => setDarkMode(!darkMode)}
                className={`p-2 rounded-full transition-colors border ${darkMode ? 'border-neutral-700 text-neutral-400 hover:text-white' : 'border-neutral-300 text-neutral-600 hover:text-black'}`}
+               aria-label={darkMode ? (language === 'en' ? 'Switch to light mode' : 'Переключить на светлую тему') : (language === 'en' ? 'Switch to dark mode' : 'Переключить на темную тему')}
                title={t.dark}
               >
                <RefreshCcw size={16} className={darkMode ? "" : "rotate-180"} />
@@ -134,6 +154,7 @@ const FontTester: React.FC<FontTesterProps> = ({ activeFont, language }) => {
              
              <button 
                onClick={handleReset}
+               aria-label={language === 'en' ? 'Reset controls' : 'Сбросить настройки'}
                className="text-[10px] uppercase font-bold tracking-widest hover:text-brand-accent transition-colors ml-4"
              >
                {t.reset}
@@ -152,8 +173,9 @@ const FontTester: React.FC<FontTesterProps> = ({ activeFont, language }) => {
             onChange={(e) => setText(e.target.value)}
             spellCheck={false}
             placeholder={t.typing}
+            aria-label={language === 'en' ? 'Font preview test area' : 'Область тестирования шрифта'}
             className={`
-                w-full h-full bg-transparent resize-none outline-none z-10 relative
+                w-full h-full bg-transparent resize-none outline-none z-10 relative cursor-text
                 ${activeFont.className} 
                 ${darkMode ? 'placeholder-neutral-800' : 'placeholder-neutral-200'}
             `}

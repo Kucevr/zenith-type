@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 const CustomCursor: React.FC = () => {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   
   const mousePos = useRef({ x: 0, y: 0 });
   const dotPos = useRef({ x: 0, y: 0 });
@@ -15,15 +16,16 @@ const CustomCursor: React.FC = () => {
       mousePos.current = { x: e.clientX, y: e.clientY };
       
       const target = e.target as HTMLElement;
+      if (!target) return;
+
+      // Magnetic logic
       const magElement = target.closest('a, button, [data-magnetic]') as HTMLElement;
-      
       if (magElement) {
         magneticTarget.current = magElement;
         const rect = magElement.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        
-        const dist = 0.15; // Refined magnetic pull
+        const dist = 0.15;
         const moveX = (e.clientX - centerX) * dist;
         const moveY = (e.clientY - centerY) * dist;
         magElement.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
@@ -31,30 +33,34 @@ const CustomCursor: React.FC = () => {
         magneticTarget.current.style.transform = '';
         magneticTarget.current = null;
       }
-    };
 
-    const handleHover = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const isInteractive = target.closest('a, button, input, textarea, [data-magnetic]');
-      const isBlackBg = target.closest('.bg-brand-black');
+      // Hover status logic combined in mousemove for maximum responsiveness
+      const isInput = target.closest('input, textarea, [contenteditable="true"], .cursor-text');
+      const isInteractive = target.closest('a, button, [data-magnetic], .cursor-pointer');
+      const isBlackBg = target.closest('.bg-brand-black, .bg-black, .dark, [data-theme="dark"]');
       
-      if (isInteractive) {
-        dotRef.current?.classList.add('scale-[2.5]', 'opacity-20');
-        ringRef.current?.classList.add('scale-[1.8]', 'border-brand-accent', 'border-[2px]');
+      if (isInput) {
+        if (containerRef.current) containerRef.current.style.opacity = '0';
       } else {
-        dotRef.current?.classList.remove('scale-[2.5]', 'opacity-20');
-        ringRef.current?.classList.remove('scale-[1.8]', 'border-brand-accent', 'border-[2px]');
-      }
+        if (containerRef.current) containerRef.current.style.opacity = '1';
 
-      if (isBlackBg) {
-        ringRef.current?.classList.add('border-white/60');
-      } else {
-        ringRef.current?.classList.remove('border-white/60');
+        if (isInteractive) {
+          dotRef.current?.classList.add('scale-[2.5]', 'opacity-20');
+          ringRef.current?.classList.add('scale-[1.8]', 'border-brand-accent', 'border-[2px]');
+        } else {
+          dotRef.current?.classList.remove('scale-[2.5]', 'opacity-20');
+          ringRef.current?.classList.remove('scale-[1.8]', 'border-brand-accent', 'border-[2px]');
+        }
+
+        if (isBlackBg) {
+          ringRef.current?.classList.add('border-white/60');
+        } else {
+          ringRef.current?.classList.remove('border-white/60');
+        }
       }
     };
 
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseover', handleHover);
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
 
     let rafId: number;
     const render = () => {
@@ -82,13 +88,15 @@ const CustomCursor: React.FC = () => {
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseover', handleHover);
       cancelAnimationFrame(rafId);
     };
   }, []);
 
   return (
-    <div className="hidden md:block pointer-events-none fixed inset-0 z-[9999]">
+    <div 
+      ref={containerRef}
+      className="hidden md:block pointer-events-none fixed inset-0 z-[9999] transition-opacity duration-200"
+    >
       <div 
         ref={dotRef}
         className="absolute top-0 left-0 w-2.5 h-2.5 bg-brand-accent rounded-full will-change-transform"

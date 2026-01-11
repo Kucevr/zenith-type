@@ -76,7 +76,12 @@ const PosterStudio: React.FC<PosterStudioProps> = ({ language }) => {
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-accent mb-2 block">{t.system}</span>
                 <h2 className="text-4xl md:text-5xl font-bold font-grotesk uppercase leading-none tracking-tighter">{language === 'en' ? <>{'Specimen'}<br/>{'Studio'}</> : <>{'Студия'}<br/>{'Образцов'}</>}</h2>
               </div>
-              <button onClick={randomize} className="w-10 h-10 border border-neutral-200 rounded-full flex items-center justify-center hover:bg-brand-accent hover:text-white transition-all hover:rotate-180 bg-white" title={t.randomize}>
+              <button 
+                onClick={randomize} 
+                className="w-10 h-10 border border-neutral-200 rounded-full flex items-center justify-center hover:bg-brand-accent hover:text-white transition-all hover:rotate-180 bg-white" 
+                title={t.randomize}
+                aria-label={t.randomize}
+              >
                 <RefreshCw size={16} />
               </button>
             </div>
@@ -85,11 +90,13 @@ const PosterStudio: React.FC<PosterStudioProps> = ({ language }) => {
               <div className="space-y-2 md:space-y-3">
                 <div className="flex justify-between items-center">
                   <h4 className="text-[9px] md:text-[10px] font-bold uppercase text-neutral-400 flex items-center gap-2"><Edit3 size={10} className="md:hidden" /><Edit3 size={12} className="hidden md:block" /> {t.text}</h4>
-                  <div className="flex gap-1">
+                  <div className="flex gap-1" role="group" aria-label={language === 'en' ? 'Text transform' : 'Преобразование текста'}>
                     {['none', 'uppercase', 'lowercase'].map((t) => (
                       <button 
                         key={t} 
                         onClick={() => setTextTransform(t as any)}
+                        aria-pressed={textTransform === t}
+                        aria-label={t}
                         className={`w-6 h-6 flex items-center justify-center text-[10px] border transition-all ${textTransform === t ? 'bg-black text-white border-black' : 'bg-white border-neutral-200 text-neutral-400'}`}
                       >
                         {t === 'none' ? 'Aa' : t === 'uppercase' ? 'AA' : 'aa'}
@@ -97,41 +104,66 @@ const PosterStudio: React.FC<PosterStudioProps> = ({ language }) => {
                     ))}
                   </div>
                 </div>
-                <textarea value={posterText} onChange={(e) => setPosterText(e.target.value)} className="w-full bg-white border border-neutral-200 p-4 font-bold text-sm md:text-base outline-none h-24 md:h-28 resize-none" style={{ textTransform }} />
+                <textarea 
+                  value={posterText} 
+                  onChange={(e) => setPosterText(e.target.value)} 
+                  aria-label={t.text}
+                  className="w-full bg-white border border-neutral-200 p-4 font-bold text-sm md:text-base outline-none h-24 md:h-28 resize-none" style={{ textTransform }} 
+                />
               </div>
 
               <div className="space-y-3 md:space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                   <div className="space-y-1.5 md:space-y-2">
                     <div className="flex justify-between text-[8px] md:text-[9px] uppercase font-bold text-neutral-500">
-                        <span className="flex items-center gap-1"><Scaling size={9} className="md:hidden"/><Scaling size={10} className="hidden md:block"/> {translations[language].lab.size}</span>
+                        <span className="flex items-center gap-1"><Scaling size={9} className="md:hidden"/><Scaling size={10} className="hidden md:block"/><span id="label-size">{translations[language].lab.size}</span></span>
                         <span>{fontSize}px</span>
                     </div>
-                    <input type="range" min="40" max="300" value={fontSize} onChange={(e) => setFontSize(Number(e.target.value))} className="w-full accent-black h-1 bg-neutral-300 rounded-lg appearance-none cursor-pointer" />
+                    <input 
+                      type="range" min="40" max="300" value={fontSize} 
+                      onChange={(e) => setFontSize(Number(e.target.value))} 
+                      aria-labelledby="label-size"
+                      className="w-full accent-black h-1 bg-neutral-300 rounded-lg appearance-none cursor-pointer" 
+                    />
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between text-[9px] uppercase font-bold text-neutral-500">
-                        <span className="flex items-center gap-1"><Zap size={10}/> Weight</span>
+                        <span className="flex items-center gap-1"><Zap size={10}/> <span id="label-weight">Weight</span></span>
                         <span>{fontWeight}</span>
                     </div>
-                    <input type="range" min="100" max="900" step="100" value={fontWeight} onChange={(e) => setFontWeight(Number(e.target.value))} className="w-full accent-black h-1 bg-neutral-300 rounded-lg appearance-none cursor-pointer" />
+                    <input 
+                      type="range" min="100" max="900" step="100" value={fontWeight} 
+                      onChange={(e) => setFontWeight(Number(e.target.value))} 
+                      aria-labelledby="label-weight"
+                      className="w-full accent-black h-1 bg-neutral-300 rounded-lg appearance-none cursor-pointer" 
+                    />
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <div className="flex justify-between text-[9px] uppercase font-bold text-neutral-500">
-                        <span className="flex items-center gap-1"><MoveVertical size={10}/> {translations[language].lab.leading}</span>
+                        <span className="flex items-center gap-1"><MoveVertical size={10}/> <span id="label-leading">{translations[language].lab.leading}</span></span>
                         <span>{lineHeight}</span>
                     </div>
-                    <input type="range" min="0.4" max="2.0" step="0.01" value={lineHeight} onChange={(e) => setLineHeight(Number(e.target.value))} className="w-full accent-black h-1 bg-neutral-300 rounded-lg appearance-none cursor-pointer" />
+                    <input 
+                      type="range" min="0.4" max="2.0" step="0.01" value={lineHeight} 
+                      onChange={(e) => setLineHeight(Number(e.target.value))} 
+                      aria-labelledby="label-leading"
+                      className="w-full accent-black h-1 bg-neutral-300 rounded-lg appearance-none cursor-pointer" 
+                    />
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between text-[9px] uppercase font-bold text-neutral-500">
-                        <span className="flex items-center gap-1"><AlignCenter size={10} className="rotate-90"/> {translations[language].lab.tracking}</span>
+                        <span className="flex items-center gap-1"><AlignCenter size={10} className="rotate-90"/> <span id="label-tracking">{translations[language].lab.tracking}</span></span>
                         <span>{tracking}px</span>
                     </div>
-                    <input type="range" min="-50" max="50" value={tracking} onChange={(e) => setTracking(Number(e.target.value))} className="w-full accent-black h-1 bg-neutral-300 rounded-lg appearance-none cursor-pointer" />
+                    <input 
+                      type="range" min="-50" max="50" value={tracking} 
+                      onChange={(e) => setTracking(Number(e.target.value))} 
+                      aria-labelledby="label-tracking"
+                      className="w-full accent-black h-1 bg-neutral-300 rounded-lg appearance-none cursor-pointer" 
+                    />
                   </div>
                 </div>
               </div>
@@ -139,11 +171,13 @@ const PosterStudio: React.FC<PosterStudioProps> = ({ language }) => {
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <h4 className="text-[10px] font-bold uppercase text-neutral-400 flex items-center gap-2"><Layout size={12} /> {t.composition}</h4>
-                  <div className="flex gap-1">
+                  <div className="flex gap-1" role="group" aria-label={language === 'en' ? 'Alignment' : 'Выравнивание'}>
                     {(['left', 'center', 'right'] as const).map((a) => (
                       <button 
                         key={a} 
                         onClick={() => setTextAlign(a)}
+                        aria-pressed={textAlign === a}
+                        aria-label={a}
                         className={`w-6 h-6 flex items-center justify-center border transition-all ${textAlign === a ? 'bg-black text-white border-black' : 'bg-white border-neutral-200 text-neutral-400'}`}
                       >
                         {a === 'left' ? <AlignLeft size={10} /> : a === 'center' ? <AlignCenter size={10} /> : <AlignRight size={10} />}
@@ -151,9 +185,14 @@ const PosterStudio: React.FC<PosterStudioProps> = ({ language }) => {
                     ))}
                   </div>
                 </div>
-                <div className="grid grid-cols-3 gap-1">
+                <div className="grid grid-cols-3 gap-1" role="group" aria-label={language === 'en' ? 'Layouts' : 'Макеты'}>
                   {layouts.map((l, i) => (
-                    <button key={i} onClick={() => setActiveLayout(i)} className={`py-3 border text-[8px] font-bold uppercase transition-all ${activeLayout === i ? 'bg-black text-white border-black' : 'bg-white border-neutral-200 hover:border-black'}`}>
+                    <button 
+                      key={i} 
+                      onClick={() => setActiveLayout(i)} 
+                      aria-pressed={activeLayout === i}
+                      className={`py-3 border text-[8px] font-bold uppercase transition-all ${activeLayout === i ? 'bg-black text-white border-black' : 'bg-white border-neutral-200 hover:border-black'}`}
+                    >
                       {l.name}
                     </button>
                   ))}
@@ -161,22 +200,42 @@ const PosterStudio: React.FC<PosterStudioProps> = ({ language }) => {
               </div>
 
               <div className="space-y-3">
-                <h4 className="text-[10px] font-bold uppercase text-neutral-400 flex items-center gap-2"><Type size={12} /> {t.library}</h4>
-                <select value={activeFont.id} onChange={(e) => setActiveFont(fonts.find(f => f.id === e.target.value) || fonts[0])} className="w-full bg-white border border-neutral-200 p-3 font-bold uppercase text-xs outline-none cursor-pointer">
+                <h4 className="text-[10px] font-bold uppercase text-neutral-400 flex items-center gap-2" id="label-font-library"><Type size={12} /> {t.library}</h4>
+                <select 
+                  value={activeFont.id} 
+                  onChange={(e) => setActiveFont(fonts.find(f => f.id === e.target.value) || fonts[0])} 
+                  aria-labelledby="label-font-library"
+                  className="w-full bg-white border border-neutral-200 p-3 font-bold uppercase text-xs outline-none cursor-pointer"
+                >
                   {fonts.map(f => <option key={f.id} value={f.id}>{f.name}</option>)}
                 </select>
               </div>
 
               <div className="grid grid-cols-3 gap-1">
-                <button onClick={() => setShowGrain(!showGrain)} className={`flex flex-col items-center justify-center p-2 bg-white border transition-all ${showGrain ? 'border-brand-accent text-brand-accent' : 'border-neutral-200 text-neutral-400'}`}>
+                <button 
+                  onClick={() => setShowGrain(!showGrain)} 
+                  aria-pressed={showGrain}
+                  aria-label="Toggle Grain Effect"
+                  className={`flex flex-col items-center justify-center p-2 bg-white border transition-all ${showGrain ? 'border-brand-accent text-brand-accent' : 'border-neutral-200 text-neutral-400'}`}
+                >
                    <Layers size={12} className="mb-1" />
                    <span className="text-[7px] font-bold uppercase">Grain</span>
                 </button>
-                <button onClick={() => setShowGrid(!showGrid)} className={`flex flex-col items-center justify-center p-2 bg-white border transition-all ${showGrid ? 'border-black text-black' : 'border-neutral-200 text-neutral-400'}`}>
+                <button 
+                  onClick={() => setShowGrid(!showGrid)} 
+                  aria-pressed={showGrid}
+                  aria-label="Toggle Grid Visibility"
+                  className={`flex flex-col items-center justify-center p-2 bg-white border transition-all ${showGrid ? 'border-black text-black' : 'border-neutral-200 text-neutral-400'}`}
+                >
                    <Grid size={12} className="mb-1" />
                    <span className="text-[7px] font-bold uppercase">Grid</span>
                 </button>
-                <button onClick={() => setShowScanlines(!showScanlines)} className={`flex flex-col items-center justify-center p-2 bg-white border transition-all ${showScanlines ? 'border-blue-500 text-blue-500' : 'border-neutral-200 text-neutral-400'}`}>
+                <button 
+                  onClick={() => setShowScanlines(!showScanlines)} 
+                  aria-pressed={showScanlines}
+                  aria-label="Toggle Scanlines Effect"
+                  className={`flex flex-col items-center justify-center p-2 bg-white border transition-all ${showScanlines ? 'border-blue-500 text-blue-500' : 'border-neutral-200 text-neutral-400'}`}
+                >
                    <Columns size={12} className="mb-1" />
                    <span className="text-[7px] font-bold uppercase">Scan</span>
                 </button>
@@ -184,7 +243,12 @@ const PosterStudio: React.FC<PosterStudioProps> = ({ language }) => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <button onClick={handleExport} disabled={isExporting} className={`w-full py-6 text-xs font-bold uppercase flex items-center justify-between px-8 group relative border border-black ${isExporting ? 'bg-brand-lime text-black border-brand-lime' : 'bg-black text-white'}`} data-magnetic>
+              <button 
+                onClick={handleExport} 
+                disabled={isExporting} 
+                aria-label={isExporting ? t.rendering : t.capture}
+                className={`w-full py-6 text-xs font-bold uppercase flex items-center justify-between px-8 group relative border border-black ${isExporting ? 'bg-brand-lime text-black border-brand-lime' : 'bg-black text-white'}`} data-magnetic
+              >
                  <span className="relative z-10 flex items-center gap-3">
                    {isExporting ? <Camera size={16} className="animate-pulse" /> : <Download size={16} />}
                    {isExporting ? t.rendering : t.capture}
@@ -192,10 +256,16 @@ const PosterStudio: React.FC<PosterStudioProps> = ({ language }) => {
                  <div className="relative z-10 font-mono opacity-50 text-[9px] hidden md:block">PNG_EXPORT</div>
               </button>
               <div className="grid grid-cols-2 gap-2">
-                <button className="flex items-center justify-center bg-white border border-black/10 hover:bg-black hover:text-white transition-all group">
+                <button 
+                  className="flex items-center justify-center bg-white border border-black/10 hover:bg-black hover:text-white transition-all group"
+                  aria-label={language === 'en' ? 'Copy to clipboard' : 'Копировать'}
+                >
                   <Copy size={16} className="group-hover:scale-110 transition-transform" />
                 </button>
-                <button className="flex items-center justify-center bg-white border border-black/10 hover:bg-black hover:text-white transition-all group">
+                <button 
+                  className="flex items-center justify-center bg-white border border-black/10 hover:bg-black hover:text-white transition-all group"
+                  aria-label={language === 'en' ? 'Share poster' : 'Поделиться'}
+                >
                   <Share2 size={16} className="group-hover:scale-110 transition-transform" />
                 </button>
               </div>
@@ -265,11 +335,13 @@ const PosterStudio: React.FC<PosterStudioProps> = ({ language }) => {
                 </div>
 
                 {/* Palette Quick Switcher */}
-                <div className="absolute top-1/2 right-6 -translate-y-1/2 flex flex-col gap-3 z-40 bg-black/10 backdrop-blur-2xl p-2 rounded-full border border-white/10">
+                <div className="absolute top-1/2 right-6 -translate-y-1/2 flex flex-col gap-3 z-40 bg-black/10 backdrop-blur-2xl p-2 rounded-full border border-white/10" role="group" aria-label={language === 'en' ? 'Color palettes' : 'Цветовые палитры'}>
                     {palettes.map((p, i) => (
                       <button 
                         key={i} 
                         onClick={() => setActivePalette(i)} 
+                        aria-pressed={activePalette === i}
+                        aria-label={`Palette: ${p.name}`}
                         className={`w-5 h-5 rounded-full transition-all ${activePalette === i ? 'ring-2 ring-white scale-125' : 'opacity-40 hover:opacity-100'} ${p.bg} border border-white/20`} 
                         title={p.name}
                       />

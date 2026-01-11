@@ -102,6 +102,7 @@ const FontGrid: React.FC<FontGridProps> = ({ fonts, onFontSelect, selectedFontId
                   ${isHovered ? 'translate-x-1 -translate-y-1' : ''}
                 `}
                 title={language === 'en' ? 'View Details' : 'Подробнее'}
+                aria-label={`${language === 'en' ? 'View details for' : 'Подробнее о'} ${font.name}`}
               >
                 <div className="absolute inset-0 bg-brand-accent/20 rounded-full scale-0 group-hover/btn:scale-100 transition-transform duration-300"></div>
                 <ArrowUpRight 
@@ -122,6 +123,7 @@ const FontGrid: React.FC<FontGridProps> = ({ fonts, onFontSelect, selectedFontId
                    ${font.className}
                    ${isHovered ? 'scale-110' : 'scale-100'}
                  `}
+                 aria-hidden="true"
                >
                  {isHovered ? (
                     <span className="text-brand-accent">Aa</span>
@@ -147,7 +149,8 @@ const FontGrid: React.FC<FontGridProps> = ({ fonts, onFontSelect, selectedFontId
                   ? 'border-white text-white hover:bg-white hover:text-black' 
                   : 'border-black text-black hover:bg-black hover:text-white translate-y-4 opacity-0 group-hover:opacity-100 group-hover:translate-y-0'}
               `}
-              title="Add to Cart"
+              title={language === 'en' ? 'Add to Cart' : 'В корзину'}
+              aria-label={`${language === 'en' ? 'Add' : 'Добавить'} ${font.name} ${language === 'en' ? 'to cart' : 'в корзину'}`}
             >
               <Plus size={20} />
             </button>
@@ -180,11 +183,14 @@ const FontGrid: React.FC<FontGridProps> = ({ fonts, onFontSelect, selectedFontId
       {/* Font Detail Modal */}
       {modalFont && (
         <div 
-          className="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[100] flex items-center justify-center p-0 md:p-4 lg:p-8 animate-in fade-in duration-500"
+          className="fixed inset-0 bg-black/90 backdrop-blur-xl z-[100] flex items-center justify-center p-0 md:p-4 lg:p-8 animate-in fade-in duration-500"
           onClick={() => {
             setModalFont(null);
             setCustomText('');
           }}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${language === 'en' ? 'Font details for' : 'Подробнее о'} ${modalFont.name}`}
         >
           <div 
             className="bg-white text-black w-full max-w-[1600px] h-full md:h-[95vh] overflow-hidden flex flex-col md:flex-row rounded-none md:rounded-2xl shadow-[0_0_100px_rgba(0,0,0,0.5)] animate-in zoom-in-95 slide-in-from-bottom-10 duration-500 relative border border-white/10"
@@ -203,8 +209,8 @@ const FontGrid: React.FC<FontGridProps> = ({ fonts, onFontSelect, selectedFontId
                 <div className="flex items-center gap-8 overflow-x-auto no-scrollbar py-2">
                   {/* Pangram Selector */}
                   <div className="flex items-center gap-3">
-                    <span className={`text-[9px] uppercase tracking-[0.2em] font-bold opacity-40 ${modalTheme === 'dark' ? 'text-white' : 'text-black'}`}>Pangram</span>
-                    <div className={`flex gap-1 p-1 rounded-full ${modalTheme === 'dark' ? 'bg-white/5' : 'bg-black/5'}`}>
+                    <span className={`text-[9px] uppercase tracking-[0.2em] font-bold opacity-40 ${modalTheme === 'dark' ? 'text-white' : 'text-black'}`} id="pangram-label">Pangram</span>
+                    <div className={`flex gap-1 p-1 rounded-full ${modalTheme === 'dark' ? 'bg-white/5' : 'bg-black/5'}`} role="group" aria-labelledby="pangram-label">
                       {[1, 2, 3, 4].map((num, idx) => (
                         <button
                           key={num}
@@ -212,6 +218,8 @@ const FontGrid: React.FC<FontGridProps> = ({ fonts, onFontSelect, selectedFontId
                             setActivePangram(idx);
                             setCustomText('');
                           }}
+                          aria-pressed={activePangram === idx && !customText}
+                          aria-label={`Pangram ${num}`}
                           className={`w-7 h-7 rounded-full text-[10px] font-bold transition-all ${
                             activePangram === idx && !customText 
                               ? (modalTheme === 'dark' ? 'bg-white text-black' : 'bg-black text-white') 
@@ -226,32 +234,39 @@ const FontGrid: React.FC<FontGridProps> = ({ fonts, onFontSelect, selectedFontId
 
                   {/* Font Size Slider */}
                   <div className="flex items-center gap-4 min-w-[180px]">
-                    <span className={`text-[9px] uppercase tracking-[0.2em] font-bold opacity-40 ${modalTheme === 'dark' ? 'text-white' : 'text-black'}`}>Size</span>
+                    <span className={`text-[9px] uppercase tracking-[0.2em] font-bold opacity-40 ${modalTheme === 'dark' ? 'text-white' : 'text-black'}`} id="modal-size-label">Size</span>
                     <input 
                       type="range" 
                       min="12" 
                       max="300" 
                       value={modalFontSize}
                       onChange={(e) => setModalFontSize(parseInt(e.target.value))}
+                      aria-labelledby="modal-size-label"
                       className={`w-24 accent-current cursor-pointer ${modalTheme === 'dark' ? 'text-white' : 'text-black'}`}
                     />
-                    <span className={`text-[10px] font-mono w-8 font-bold ${modalTheme === 'dark' ? 'text-white' : 'text-black'}`}>{modalFontSize}px</span>
+                    <span className={`text-[10px] font-mono w-8 font-bold ${modalTheme === 'dark' ? 'text-white' : 'text-black'}`} aria-hidden="true">{modalFontSize}px</span>
                   </div>
 
                   {/* Theme Switcher */}
                   <div className="flex items-center gap-3">
-                    <span className={`text-[9px] uppercase tracking-[0.2em] font-bold opacity-40 ${modalTheme === 'dark' ? 'text-white' : 'text-black'}`}>Theme</span>
-                    <div className="flex items-center gap-2">
+                    <span className={`text-[9px] uppercase tracking-[0.2em] font-bold opacity-40 ${modalTheme === 'dark' ? 'text-white' : 'text-black'}`} id="theme-label">Theme</span>
+                    <div className="flex items-center gap-2" role="group" aria-labelledby="theme-label">
                       <button 
                         onClick={() => setModalTheme('light')}
+                        aria-pressed={modalTheme === 'light'}
+                        aria-label="Light theme"
                         className={`w-5 h-5 rounded-full border transition-all ${modalTheme === 'light' ? 'ring-2 ring-offset-2 ring-black scale-110' : 'opacity-50 hover:opacity-100'} bg-white border-black/10`}
                       />
                       <button 
                         onClick={() => setModalTheme('dark')}
+                        aria-pressed={modalTheme === 'dark'}
+                        aria-label="Dark theme"
                         className={`w-5 h-5 rounded-full border transition-all ${modalTheme === 'dark' ? 'ring-2 ring-offset-2 ring-white scale-110' : 'opacity-50 hover:opacity-100'} bg-[#111] border-white/20`}
                       />
                       <button 
                         onClick={() => setModalTheme('brand')}
+                        aria-pressed={modalTheme === 'brand'}
+                        aria-label="Brand theme"
                         className={`w-5 h-5 rounded-full border transition-all ${modalTheme === 'brand' ? 'ring-2 ring-offset-2 ring-black scale-110' : 'opacity-50 hover:opacity-100'} bg-[#CCFF00] border-black/10`}
                       />
                     </div>
@@ -259,11 +274,12 @@ const FontGrid: React.FC<FontGridProps> = ({ fonts, onFontSelect, selectedFontId
                 </div>
 
                 {/* OT Features */}
-                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-2">
+                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-2" role="group" aria-label="OpenType Features">
                   {Object.entries(otFeatures).map(([feature, active]) => (
                     <button
                       key={feature}
                       onClick={() => toggleFeature(feature as keyof typeof otFeatures)}
+                      aria-pressed={active}
                       className={`text-[9px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-md border transition-all whitespace-nowrap ${
                         active 
                           ? (modalTheme === 'dark' ? 'bg-white text-black border-white' : 'bg-black text-white border-black') 
@@ -297,7 +313,8 @@ const FontGrid: React.FC<FontGridProps> = ({ fonts, onFontSelect, selectedFontId
                       value={customText || pangrams[language as keyof typeof pangrams][activePangram]}
                       onChange={(e) => setCustomText(e.target.value)}
                       spellCheck={false}
-                      className={`w-full bg-transparent border-none focus:ring-0 resize-none p-0 leading-[0.9] tracking-tight overflow-hidden transition-all duration-300 ${
+                      aria-label={language === 'en' ? 'Type specimen preview' : 'Просмотр начертания шрифта'}
+                      className={`w-full bg-transparent border-none focus:ring-0 resize-none p-0 leading-[0.9] tracking-tight overflow-hidden transition-all duration-300 cursor-text ${
                         modalTheme === 'dark' ? 'text-white' : 'text-black'
                       }`}
                       style={{
@@ -326,7 +343,7 @@ const FontGrid: React.FC<FontGridProps> = ({ fonts, onFontSelect, selectedFontId
                         value={customText || pangrams[language as keyof typeof pangrams][activePangram]}
                         onChange={(e) => setCustomText(e.target.value)}
                         spellCheck={false}
-                        className={`w-full bg-transparent border-none focus:ring-0 resize-none p-0 leading-[0.9] tracking-tight overflow-hidden transition-all duration-300 ${
+                        className={`w-full bg-transparent border-none focus:ring-0 resize-none p-0 leading-[0.9] tracking-tight overflow-hidden transition-all duration-300 cursor-text ${
                           modalTheme === 'dark' ? 'text-white' : 'text-black'
                         }`}
                         style={{

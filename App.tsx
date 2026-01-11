@@ -16,6 +16,7 @@ import CustomCursor from './components/CustomCursor';
 import FoundryLab from './components/FoundryLab';
 import VariableSandbox from './components/VariableSandbox';
 import CartDrawer from './components/CartDrawer';
+import Checkout from './components/Checkout';
 import Showcase from './components/Showcase';
 import LegalModal, { LegalType } from './components/LegalModal';
 
@@ -31,8 +32,21 @@ const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [cartIds, setCartIds] = useState<string[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [legalModal, setLegalModal] = useState<LegalType>(null);
   const [toast, setToast] = useState<{ visible: boolean; message: string }>({ visible: false, message: '' });
+
+  // Lock body scroll when any modal is open
+  React.useEffect(() => {
+    if (isCartOpen || isCheckoutOpen || legalModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isCartOpen, isCheckoutOpen, legalModal]);
 
   const t = translations[language];
 
@@ -68,6 +82,14 @@ const App: React.FC = () => {
 
   const handleDownloadTrial = useCallback(() => {
     setToast({ visible: true, message: language === 'en' ? 'Trial fonts package downloaded' : 'Пакет пробных шрифтов скачан' });
+  }, [language]);
+
+  const handleCheckoutSuccess = useCallback(() => {
+    setCartIds([]);
+    setToast({ 
+      visible: true, 
+      message: language === 'en' ? 'Transaction successful! Check your email.' : 'Оплата прошла успешно! Проверьте почту.' 
+    });
   }, [language]);
 
   const handleApplyStudent = useCallback(() => setToast({ visible: true, message: language === 'en' ? 'Student Verification Portal Opened' : 'Портал верификации студентов открыт' }), [language]);
@@ -125,6 +147,18 @@ const App: React.FC = () => {
         onClose={() => setIsCartOpen(false)} 
         cartItems={cartItems}
         onRemove={handleRemoveFromCart}
+        onCheckout={() => {
+          setIsCartOpen(false);
+          setIsCheckoutOpen(true);
+        }}
+      />
+
+      <Checkout
+        language={language}
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+        cartItems={cartItems}
+        onSuccess={handleCheckoutSuccess}
       />
       
       <Toast 

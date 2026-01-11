@@ -58,21 +58,24 @@ const VariableSandbox: React.FC<VariableSandboxProps> = ({ language }) => {
          </div>
          <button 
            onClick={cycleFont}
+           aria-label={language === 'en' ? `Change typeface. Current: ${currentFont.name}` : `Сменить шрифт. Сейчас: ${currentFont.name}`}
            className="flex items-center gap-3 text-[10px] font-mono uppercase bg-white text-black px-4 py-2 hover:bg-brand-accent hover:text-white transition-colors cursor-pointer shadow-lg"
          >
-            <RefreshCw size={12} /> {t.typeface}: {currentFont.name}
+            <RefreshCw size={12} aria-hidden="true" /> {t.typeface}: {currentFont.name}
          </button>
       </div>
       
       <div className="absolute bottom-8 right-8 flex flex-col items-end gap-3 z-20">
          <button 
            onClick={() => setIsFluidMode(!isFluidMode)}
+           aria-pressed={isFluidMode}
+           aria-label={isFluidMode ? (language === 'en' ? 'Turn off fluid mode' : 'Выключить живой режим') : (language === 'en' ? 'Turn on fluid mode' : 'Включить живой режим')}
            className={`flex items-center gap-3 text-[10px] font-mono uppercase px-4 py-2 border transition-all ${isFluidMode ? 'bg-brand-lime text-black border-brand-lime' : 'bg-transparent text-white border-white/20'}`}
          >
-            <Activity size={12} className={isFluidMode ? "animate-pulse" : ""} /> {isFluidMode ? (language === 'en' ? 'Fluid Mode On' : 'Живой режим: ВКЛ') : (language === 'en' ? 'Fluid Mode Off' : 'Живой режим: ВЫКЛ')}
+            <Activity size={12} className={isFluidMode ? "animate-pulse" : ""} aria-hidden="true" /> {isFluidMode ? (language === 'en' ? 'Fluid Mode On' : 'Живой режим: ВКЛ') : (language === 'en' ? 'Fluid Mode Off' : 'Живой режим: ВЫКЛ')}
          </button>
          <div className="text-[10px] font-mono uppercase text-neutral-500">
-            <MousePointer2 size={12} className="inline mr-2" /> {t.interactive}
+            <MousePointer2 size={12} className="inline mr-2" aria-hidden="true" /> {t.interactive}
          </div>
       </div>
 
@@ -95,12 +98,28 @@ const VariableSandbox: React.FC<VariableSandboxProps> = ({ language }) => {
         {!isFluidMode && (
           <div className="mt-12 w-full max-w-md space-y-6">
             <div className="space-y-2">
-              <div className="flex justify-between text-[10px] uppercase font-mono opacity-50"><span>{t.weight}</span><span>{weight}</span></div>
-              <input type="range" min="100" max="900" value={weight} onChange={(e) => setWeight(Number(e.target.value))} className="w-full accent-brand-accent h-1 bg-neutral-800 rounded-lg appearance-none cursor-pointer" />
+              <div className="flex justify-between text-[10px] uppercase font-mono opacity-50">
+                <span id="sandbox-weight-label">{t.weight}</span>
+                <span>{weight}</span>
+              </div>
+              <input 
+                type="range" min="100" max="900" value={weight} 
+                onChange={(e) => setWeight(Number(e.target.value))} 
+                aria-labelledby="sandbox-weight-label"
+                className="w-full accent-brand-accent h-1 bg-neutral-800 rounded-lg appearance-none cursor-pointer" 
+              />
             </div>
             <div className="space-y-2">
-              <div className="flex justify-between text-[10px] uppercase font-mono opacity-50"><span>{t.tracking}</span><span>{tracking}px</span></div>
-              <input type="range" min="-10" max="40" value={tracking} onChange={(e) => setTracking(Number(e.target.value))} className="w-full accent-brand-lime h-1 bg-neutral-800 rounded-lg appearance-none cursor-pointer" />
+              <div className="flex justify-between text-[10px] uppercase font-mono opacity-50">
+                <span id="sandbox-tracking-label">{t.tracking}</span>
+                <span>{tracking}px</span>
+              </div>
+              <input 
+                type="range" min="-10" max="40" value={tracking} 
+                onChange={(e) => setTracking(Number(e.target.value))} 
+                aria-labelledby="sandbox-tracking-label"
+                className="w-full accent-brand-lime h-1 bg-neutral-800 rounded-lg appearance-none cursor-pointer" 
+              />
             </div>
           </div>
         )}

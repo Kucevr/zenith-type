@@ -14,6 +14,23 @@ export const translations = {
       cart: 'Cart',
       checkout: 'Checkout'
     },
+    checkout: {
+      title: 'Checkout',
+      personal: 'Information',
+      payment: 'Payment',
+      review: 'Review',
+      email: 'Email Address',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      cardNumber: 'Card Number',
+      expiry: 'MM/YY',
+      cvv: 'CVV',
+      placeOrder: 'Place Order',
+      success: 'Order Confirmed',
+      successDesc: 'Thank you for supporting independent type. Your license keys and files have been sent to your email.',
+      download: 'Download Package',
+      back: 'Back to Site'
+    },
     hero: {
       system: 'System v3.1 Live',
       title: 'Precision Tools for Radical Designers',
@@ -132,6 +149,23 @@ export const translations = {
       about: 'О нас',
       cart: 'Корзина',
       checkout: 'Купить'
+    },
+    checkout: {
+      title: 'Оформление',
+      personal: 'Информация',
+      payment: 'Оплата',
+      review: 'Проверка',
+      email: 'Email адрес',
+      firstName: 'Имя',
+      lastName: 'Фамилия',
+      cardNumber: 'Номер карты',
+      expiry: 'ММ/ГГ',
+      cvv: 'CVV',
+      placeOrder: 'Оплатить заказ',
+      success: 'Заказ подтвержден',
+      successDesc: 'Спасибо за поддержку независимой словолитни. Лицензионные ключи и файлы отправлены на вашу почту.',
+      download: 'Скачать пакет',
+      back: 'Вернуться на сайт'
     },
     hero: {
       system: 'Система v3.1 Активна',

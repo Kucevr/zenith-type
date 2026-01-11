@@ -148,10 +148,16 @@ const Showcase: React.FC<ShowcaseProps> = ({ language }) => {
           
           <div className="space-y-6 relative z-10">
             <div className="flex gap-4">
-              <button className="w-12 h-12 md:w-16 md:h-16 border border-neutral-700 flex items-center justify-center hover:bg-white hover:text-black transition-all rounded-full group">
+              <button 
+                aria-label={language === 'en' ? 'Previous project' : 'Предыдущий проект'}
+                className="w-12 h-12 md:w-16 md:h-16 border border-neutral-700 flex items-center justify-center hover:bg-white hover:text-black transition-all rounded-full group"
+              >
                 <ChevronLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
               </button>
-              <button className="w-12 h-12 md:w-16 md:h-16 border border-neutral-700 flex items-center justify-center hover:bg-white hover:text-black transition-all rounded-full group">
+              <button 
+                aria-label={language === 'en' ? 'Next project' : 'Следующий проект'}
+                className="w-12 h-12 md:w-16 md:h-16 border border-neutral-700 flex items-center justify-center hover:bg-white hover:text-black transition-all rounded-full group"
+              >
                 <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
@@ -167,6 +173,8 @@ const Showcase: React.FC<ShowcaseProps> = ({ language }) => {
             <div
               key={project.id}
               onClick={() => openProject(index)}
+              role="button"
+              aria-label={`${language === 'en' ? 'View project:' : 'Просмотреть проект:'} ${project.title}`}
               className={`
                 group relative border-b border-neutral-800 ${project.color} 
                 ${project.id === 'organic' ? 'text-black' : 'text-white'} 
