@@ -48,22 +48,13 @@ const CustomCursor: React.FC = () => {
       const isInteractive = target.closest('a, button, [data-magnetic], .cursor-pointer');
       const isBlackBg = target.closest('.bg-brand-black, .bg-black, .dark, [data-theme="dark"]');
       
-      if (isInput) {
+      if (isInput || isInteractive) {
         if (containerRef.current) containerRef.current.style.opacity = '0';
       } else {
         if (containerRef.current) containerRef.current.style.opacity = '1';
 
-        if (isInteractive) {
-          targetDotScale.current = 2.5;
-          targetRingScale.current = 1.8;
-          dotRef.current?.classList.add('opacity-20');
-          ringRef.current?.classList.add('border-brand-accent', 'border-[2px]');
-        } else {
-          targetDotScale.current = 1;
-          targetRingScale.current = 1;
-          dotRef.current?.classList.remove('opacity-20');
-          ringRef.current?.classList.remove('border-brand-accent', 'border-[2px]');
-        }
+        targetDotScale.current = 1;
+        targetRingScale.current = 1;
 
         if (isBlackBg) {
           ringRef.current?.classList.add('border-white/60');
