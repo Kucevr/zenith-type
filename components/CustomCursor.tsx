@@ -9,6 +9,12 @@ const CustomCursor: React.FC = () => {
   const mousePos = useRef({ x: 0, y: 0 });
   const dotPos = useRef({ x: 0, y: 0 });
   const ringPos = useRef({ x: 0, y: 0 });
+  
+  const dotScale = useRef(1);
+  const ringScale = useRef(1);
+  const targetDotScale = useRef(1);
+  const targetRingScale = useRef(1);
+  
   const magneticTarget = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -18,7 +24,7 @@ const CustomCursor: React.FC = () => {
       const target = e.target as HTMLElement;
       if (!target) return;
 
-      // Magnetic logic with immediate reset for previous targets
+      // Magnetic logic
       const magElement = target.closest('a, button, [data-magnetic]') as HTMLElement;
       if (magElement) {
         if (magneticTarget.current && magneticTarget.current !== magElement) {
@@ -37,7 +43,7 @@ const CustomCursor: React.FC = () => {
         magneticTarget.current = null;
       }
 
-      // Hover status logic combined in mousemove for maximum responsiveness
+      // Hover status logic
       const isInput = target.closest('input, textarea, [contenteditable="true"], .cursor-text');
       const isInteractive = target.closest('a, button, [data-magnetic], .cursor-pointer');
       const isBlackBg = target.closest('.bg-brand-black, .bg-black, .dark, [data-theme="dark"]');
@@ -48,11 +54,15 @@ const CustomCursor: React.FC = () => {
         if (containerRef.current) containerRef.current.style.opacity = '1';
 
         if (isInteractive) {
-          dotRef.current?.classList.add('scale-[2.5]', 'opacity-20');
-          ringRef.current?.classList.add('scale-[1.8]', 'border-brand-accent', 'border-[2px]');
+          targetDotScale.current = 2.5;
+          targetRingScale.current = 1.8;
+          dotRef.current?.classList.add('opacity-20');
+          ringRef.current?.classList.add('border-brand-accent', 'border-[2px]');
         } else {
-          dotRef.current?.classList.remove('scale-[2.5]', 'opacity-20');
-          ringRef.current?.classList.remove('scale-[1.8]', 'border-brand-accent', 'border-[2px]');
+          targetDotScale.current = 1;
+          targetRingScale.current = 1;
+          dotRef.current?.classList.remove('opacity-20');
+          ringRef.current?.classList.remove('border-brand-accent', 'border-[2px]');
         }
 
         if (isBlackBg) {
@@ -69,19 +79,22 @@ const CustomCursor: React.FC = () => {
     const render = () => {
       const lerp = (start: number, end: number, factor: number) => start + (end - start) * factor;
 
-      // Virtually instant follow for the dot to avoid "flying to the side"
-      dotPos.current.x = lerp(dotPos.current.x, mousePos.current.x, 0.98);
-      dotPos.current.y = lerp(dotPos.current.y, mousePos.current.y, 0.98);
+      // 1. Follow positions
+      dotPos.current.x = lerp(dotPos.current.x, mousePos.current.x, 0.4);
+      dotPos.current.y = lerp(dotPos.current.y, mousePos.current.y, 0.4);
 
-      // Snappy but smooth follow for the ring
-      ringPos.current.x = lerp(ringPos.current.x, mousePos.current.x, 0.3);
-      ringPos.current.y = lerp(ringPos.current.y, mousePos.current.y, 0.3);
+      ringPos.current.x = lerp(ringPos.current.x, mousePos.current.x, 0.15);
+      ringPos.current.y = lerp(ringPos.current.y, mousePos.current.y, 0.15);
+
+      // 2. Animate scales within RAF to prevent CSS conflicts
+      dotScale.current = lerp(dotScale.current, targetDotScale.current, 0.2);
+      ringScale.current = lerp(ringScale.current, targetRingScale.current, 0.2);
 
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${dotPos.current.x}px, ${dotPos.current.y}px, 0) translate(-50%, -50%)`;
+        dotRef.current.style.transform = `translate3d(${dotPos.current.x}px, ${dotPos.current.y}px, 0) translate(-50%, -50%) scale(${dotScale.current})`;
       }
       if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%)`;
+        ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%) scale(${ringScale.current})`;
       }
 
       rafId = requestAnimationFrame(render);
@@ -98,15 +111,17 @@ const CustomCursor: React.FC = () => {
   return (
     <div 
       ref={containerRef}
-      className="hidden md:block pointer-events-none fixed inset-0 z-[9999] transition-opacity duration-200"
+      className="hidden md:block pointer-events-none fixed inset-0 z-[9999] transition-opacity duration-300"
     >
       <div 
         ref={dotRef}
-        className="absolute top-0 left-0 w-2.5 h-2.5 bg-brand-accent rounded-full will-change-transform"
+        className="absolute top-0 left-0 w-2.5 h-2.5 bg-brand-accent rounded-full transition-shadow duration-300"
+        style={{ willChange: 'transform' }}
       />
       <div 
         ref={ringRef}
-        className="absolute top-0 left-0 w-11 h-11 border border-brand-black/30 rounded-full will-change-transform"
+        className="absolute top-0 left-0 w-11 h-11 border border-brand-black/30 rounded-full transition-colors duration-300"
+        style={{ willChange: 'transform' }}
       />
     </div>
   );
