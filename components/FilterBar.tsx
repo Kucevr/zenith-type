@@ -26,7 +26,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
   const filters = language === 'en' ? filtersEn : filtersRu;
 
   return (
-    <div className="sticky top-16 md:top-20 z-30 bg-brand-light/95 backdrop-blur-sm border-b border-black px-4 md:px-8 py-4 flex flex-col lg:flex-row items-center justify-between gap-4 shadow-sm">
+    <div className="relative bg-white border-b border-black px-4 md:px-8 py-6 flex flex-col lg:flex-row items-center justify-between gap-4">
        <div className="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto">
           <div className="flex gap-2 overflow-x-auto w-full md:w-auto no-scrollbar items-center pb-2 md:pb-0">
             <span className="text-xs font-bold uppercase mr-2 flex items-center gap-2 text-neutral-500" aria-hidden="true">
